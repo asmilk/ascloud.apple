@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,9 +22,12 @@ public class IndexController {
 	@Autowired
 	private OAuth2RestTemplate oAuth2RestTemplate;
 	
-	@RequestMapping("/test")
-	public String test() {
-		String result = this.oAuth2RestTemplate.getForObject("http://oauth2.resource:8085/baz", String.class);
+	@Value("${security.oauth2.resource.user-info-uri}")
+	private String userInfoUrl;
+	
+	@RequestMapping("/user_info")
+	public String userInfo() {
+		String result = this.oAuth2RestTemplate.getForObject(userInfoUrl, String.class);
 		LOG.info("result:{}", result);
 		return "index";
 	}

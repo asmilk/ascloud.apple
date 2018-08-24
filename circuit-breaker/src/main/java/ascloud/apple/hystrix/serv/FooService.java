@@ -13,7 +13,7 @@ public class FooService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Value("${service.foo.url}")
+	@Value("${ascloud.apple.service.foo.url}")
 	private String url;
 
 	@HystrixCommand(fallbackMethod = "fooFallback")

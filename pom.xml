@@ -16,10 +16,10 @@
 
 	<modules>
 		<module>eureka-server</module>
+		<module>oauth2-server</module>
 		<module>eureka-client</module>
 		<module>circuit-breaker</module>
 		<module>feign-client</module>
-		<module>oauth2-server</module>
 		<module>oauth2-resource</module>
 		<module>zuul-proxy</module>
 	</modules>

@@ -3,6 +3,7 @@ package ascloud.apple.zuul;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
@@ -42,6 +43,9 @@ public class ZuulProxyApplication {
 	@Configuration
 	@EnableOAuth2Sso
 	static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+		
+		@Value("${ascloud.apple.auth.server.endpoint.revoke-token}")
+		private String revokeTokenUrl;
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
@@ -50,7 +54,7 @@ public class ZuulProxyApplication {
 					.antMatchers("/", "/login**").permitAll()//
 					.anyRequest().authenticated().and()//
 					.logout().deleteCookies("JSESSIONID").invalidateHttpSession(true)
-					.logoutSuccessUrl("http://oauth2.server:8084/oauth/revoke_token");
+					.logoutSuccessUrl(revokeTokenUrl);
 		}
 
 		@Bean
