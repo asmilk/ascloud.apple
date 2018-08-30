@@ -44,7 +44,8 @@
 	<div sec:authorize-url="/index">
 		<h6>api:</h6>
 		<ul>
-			<li><a th:href="@{/api/resource/oauth/user_info}">/api/resource/oauth/user_info</a></li>
+			<li><a th:href="@{/api/uaa/api/user_info}">/api/uaa/api/user_info</a></li>
+			<li><a th:href="@{/api/uaa/api/revoke_token}">/api/uaa/api/revoke_token</a></li>
 			<li><a th:href="@{/api/client/foo}">/api/client/foo</a></li>
 			<li><a th:href="@{/api/hystrix/test}">/api/hystrix/test</a></li>
 			<li><a th:href="@{/api/feign/test}">/api/feign/test</a></li>

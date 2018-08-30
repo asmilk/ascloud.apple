@@ -3,7 +3,7 @@ package ascloud.apple.zuul;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
@@ -20,6 +20,8 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
+
+import ascloud.apple.zuul.auth.OAuth2LogoutHandler;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -43,9 +45,9 @@ public class ZuulProxyApplication {
 	@Configuration
 	@EnableOAuth2Sso
 	static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-		
-		@Value("${ascloud.apple.auth.server.endpoint.revoke-token}")
-		private String revokeTokenUrl;
+
+		@Autowired
+		private OAuth2LogoutHandler oAuth2LogoutHandler;
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
@@ -53,8 +55,9 @@ public class ZuulProxyApplication {
 					.antMatcher("/**").authorizeRequests()//
 					.antMatchers("/", "/login**").permitAll()//
 					.anyRequest().authenticated().and()//
-					.logout().deleteCookies("JSESSIONID").invalidateHttpSession(true)
-					.logoutSuccessUrl(revokeTokenUrl);
+					.logout().addLogoutHandler(this.oAuth2LogoutHandler).deleteCookies("JSESSIONID")
+					.invalidateHttpSession(true).clearAuthentication(true)
+					.logoutSuccessUrl("http://oauth2.server:8822/api/logout");
 		}
 
 		@Bean
