@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
@@ -45,7 +46,10 @@ public class ZuulProxyApplication {
 	@Configuration
 	@EnableOAuth2Sso
 	static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+		
+		@Value("${ascloud.apple.auth.server.endpoint.logout}")
+		private String logoutUrl;
+		
 		@Autowired
 		private OAuth2LogoutHandler oAuth2LogoutHandler;
 
@@ -55,9 +59,8 @@ public class ZuulProxyApplication {
 					.antMatcher("/**").authorizeRequests()//
 					.antMatchers("/", "/login**").permitAll()//
 					.anyRequest().authenticated().and()//
-					.logout().addLogoutHandler(this.oAuth2LogoutHandler).deleteCookies("JSESSIONID")
-					.invalidateHttpSession(true).clearAuthentication(true)
-					.logoutSuccessUrl("http://oauth2.server:8822/api/logout");
+					.logout().addLogoutHandler(this.oAuth2LogoutHandler)
+					.logoutSuccessUrl(this.logoutUrl);
 		}
 
 		@Bean

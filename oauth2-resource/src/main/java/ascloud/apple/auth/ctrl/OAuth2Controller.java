@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/oauth")
-public class OauthController {
+public class OAuth2Controller {
 
-	private static final Logger LOG = LoggerFactory.getLogger(OauthController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(OAuth2Controller.class);
 
 	@RequestMapping("/user_info")
 	public Principal userInfo(Principal principal) {

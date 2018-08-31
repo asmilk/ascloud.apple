@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OAuth2LogoutSuccessHandler implements LogoutSuccessHandler {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(OAuth2LogoutHandler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(OAuth2LogoutSuccessHandler.class);
 
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)

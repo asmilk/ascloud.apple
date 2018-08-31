@@ -26,11 +26,8 @@ public class OAuth2LogoutHandler implements LogoutHandler {
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 
-		Object result = this.oAuth2RestTemplate.getForObject("http://oauth2.server:8822/api/revoke_token", Object.class);
+		Boolean result = this.oAuth2RestTemplate.getForObject(this.revokeTokenUrl, Boolean.class);
 		LOG.info("result:{}", result);
-
-		String referer = request.getHeader("referer");
-		LOG.info("referer:{}", referer);
 
 	}
 
