@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
-public class UserController {
+@RequestMapping
+public class ResourceController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ResourceController.class);
 
 	@Autowired
 	ConsumerTokenServices consumerTokenServices;
 
 	@RequestMapping("/revoke_token")
-	public boolean revokeToken(Principal principal) throws ServletException {
+	public boolean revoke(Principal principal) throws ServletException {
 		boolean result = false;
 		if (principal instanceof OAuth2Authentication) {
 			OAuth2Authentication authentication = (OAuth2Authentication) principal;
@@ -47,7 +47,6 @@ public class UserController {
 	@RequestMapping("/hello")
 	public boolean hello(HttpServletRequest request) throws ServletException {
 		Principal principal = request.getUserPrincipal();
-		request.logout();
 		LOG.info("principal:{}", principal);
 		return false;
 	}

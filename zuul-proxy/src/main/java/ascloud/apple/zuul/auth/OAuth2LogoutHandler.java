@@ -17,7 +17,7 @@ public class OAuth2LogoutHandler implements LogoutHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OAuth2LogoutHandler.class);
 
-	@Value("${ascloud.apple.auth.server.endpoint.revoke-token}")
+	@Value("${ascloud.apple.auth.server.resource.revoke-token-uri}")
 	private String revokeTokenUrl;
 
 	@Autowired

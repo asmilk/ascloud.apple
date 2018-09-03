@@ -47,8 +47,8 @@ public class ZuulProxyApplication {
 	@EnableOAuth2Sso
 	static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
-		@Value("${ascloud.apple.auth.server.endpoint.logout}")
-		private String logoutUrl;
+		@Value("${ascloud.apple.auth.server.logout-uri}")
+		private String authServerLogoutUrl;
 		
 		@Autowired
 		private OAuth2LogoutHandler oAuth2LogoutHandler;
@@ -60,7 +60,7 @@ public class ZuulProxyApplication {
 					.antMatchers("/", "/login**").permitAll()//
 					.anyRequest().authenticated().and()//
 					.logout().addLogoutHandler(this.oAuth2LogoutHandler)
-					.logoutSuccessUrl(this.logoutUrl);
+					.logoutSuccessUrl(this.authServerLogoutUrl);
 		}
 
 		@Bean
