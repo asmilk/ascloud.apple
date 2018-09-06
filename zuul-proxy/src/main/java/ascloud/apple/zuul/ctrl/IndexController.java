@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);
-
-	@Autowired
-	private OAuth2RestTemplate oAuth2RestTemplate;
 	
 	@Value("${security.oauth2.resource.user-info-uri}")
 	private String userInfoUrl;
+
+	@Autowired
+	private OAuth2RestTemplate oAuth2RestTemplate;
 	
 	@RequestMapping("/user_info")
 	public String userInfo() {

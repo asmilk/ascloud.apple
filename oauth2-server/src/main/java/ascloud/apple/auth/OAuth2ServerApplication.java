@@ -13,9 +13,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @SpringBootApplication
+@EnableEurekaClient
 @EnableAuthorizationServer
 @EnableResourceServer
-@EnableEurekaClient
 public class OAuth2ServerApplication {
 
 	public static void main(String[] args) {
@@ -32,8 +32,8 @@ public class OAuth2ServerApplication {
 	@Bean
 	public UserDetailsService userDetailsService() {
 		InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-		userDetailsService.createUser(User.withUsername("user").password("{noop}123456").roles("USER").build());
-		userDetailsService.createUser(User.withUsername("admin").password("{noop}123456").roles("ADMIN").build());
+		userDetailsService.createUser(User.withUsername("user").password("123456").roles("USER").build());
+		userDetailsService.createUser(User.withUsername("admin").password("123456").roles("ADMIN").build());
 		return userDetailsService;
 	}
 }

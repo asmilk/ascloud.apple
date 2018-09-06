@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -22,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private RoleHierarchy roleHierarchy;
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 
@@ -30,8 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http//
-				.requestMatchers().antMatchers("/oauth/**", "/login/**", "/logout/**").and()//
-				.authorizeRequests().anyRequest().authenticated().and()//
+				.requestMatchers().antMatchers("/oauth/**", "/actuator/**", "/login/**", "/logout/**").and()//
+				.authorizeRequests().antMatchers("/actuator/**").permitAll().anyRequest().authenticated().and()//
 				.formLogin().and()//
 				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessHandler(this.oAuth2LogoutSuccessHandler);
@@ -40,11 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth//
-//				.inMemoryAuthentication().passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder())//
-//				.withUser("user").password("{noop}123456").roles("USER").and()//
-//				.withUser("admin").password("{noop}123456").roles("ADMIN");
-		auth.userDetailsService(this.userDetailsService).passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
+		auth//
+				.userDetailsService(this.userDetailsService);
+		// .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
 	}
 
 	@Override
