@@ -69,8 +69,7 @@ public class ZuulProxyApplication {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http//
-					.antMatcher("/**").authorizeRequests()//
-					.antMatchers("/", "/login**").permitAll()//
+					.authorizeRequests().antMatchers("/", "/login**").permitAll()//
 					.anyRequest().authenticated().and()//
 					.logout().addLogoutHandler(this.oAuth2LogoutHandler).logoutSuccessUrl(this.authServerLogoutUrl);
 		}

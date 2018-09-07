@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -25,30 +26,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
 		http//
-				.requestMatchers().antMatchers("/oauth/**", "/actuator/**", "/login/**", "/logout/**").and()//
-				.authorizeRequests().antMatchers("/actuator/**").permitAll().anyRequest().authenticated().and()//
+				.requestMatchers().antMatchers("/oauth/**", "/login", "/logout").and()//
+				.authorizeRequests().anyRequest().authenticated().and()//
 				.formLogin().and()//
 				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessHandler(this.oAuth2LogoutSuccessHandler);
-
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth//
-				.userDetailsService(this.userDetailsService);
-		// .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
+				.userDetailsService(this.userDetailsService).passwordEncoder(this.passwordEncoder);
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		OAuth2WebSecurityExpressionHandler expressionHandler = new OAuth2WebSecurityExpressionHandler();
 		expressionHandler.setRoleHierarchy(this.roleHierarchy);
-		web.expressionHandler(expressionHandler);
+		web.expressionHandler(expressionHandler).ignoring().antMatchers("/actuator/**");
 	}
 
 }
