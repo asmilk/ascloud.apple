@@ -20,6 +20,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring4.SpringTemplateEngine;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -31,17 +34,27 @@ public class OAuth2ServerApplication {
 	}
 
 	@Bean
+	public TemplateEngine templateEngine() {
+		SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+		springTemplateEngine.addDialect(new SpringSecurityDialect());
+		return springTemplateEngine;
+	}
+
+	@Bean
 	public RoleHierarchy roleHierarchy() {
 		RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-		roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
+		roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_STAFF and ROLE_STAFF > ROLE_USER");
 		return roleHierarchy;
 	}
 
 	@Bean
 	public UserDetailsService userDetailsService() {
 		InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-		userDetailsService.createUser(User.withUsername("user").password("{noop}123456").roles("USER").build());
 		userDetailsService.createUser(User.withUsername("admin").password("{noop}123456").roles("ADMIN").build());
+		userDetailsService.createUser(User.withUsername("staff").password("{noop}123456").roles("STAFF").build());
+		userDetailsService.createUser(User.withUsername("user").password("{noop}123456").roles("USER").build());		
+		userDetailsService.createUser(User.withUsername("guest").password("{noop}123456").roles("GUEST").build());
+		userDetailsService.createUser(User.withUsername("hacker").password("{noop}123456").roles("HACKER").disabled(true).build());
 		return userDetailsService;
 	}
 
@@ -72,8 +85,8 @@ public class OAuth2ServerApplication {
 		@Override
 		public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 			security//
-					.passwordEncoder(this.passwordEncoder).tokenKeyAccess("permitAll()")
-					.checkTokenAccess("isAuthenticated()");
+					.passwordEncoder(this.passwordEncoder)//
+					.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
 		}
 
 		@Override

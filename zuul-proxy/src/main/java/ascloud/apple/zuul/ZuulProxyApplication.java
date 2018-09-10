@@ -43,7 +43,7 @@ public class ZuulProxyApplication {
 	@Bean
 	public RoleHierarchy roleHierarchy() {
 		RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-		roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
+		roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_STAFF and ROLE_STAFF > ROLE_USER");
 		return roleHierarchy;
 	}
 
@@ -69,8 +69,7 @@ public class ZuulProxyApplication {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http//
-					.authorizeRequests().antMatchers("/", "/login**").permitAll()//
-					.anyRequest().authenticated().and()//
+					.authorizeRequests().antMatchers("/", "/login**").permitAll().anyRequest().authenticated().and()//
 					.logout().addLogoutHandler(this.oAuth2LogoutHandler).logoutSuccessUrl(this.authServerLogoutUrl);
 		}
 
