@@ -1,8 +1,11 @@
 package ascloud.apple.feign.client;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import ascloud.apple.eureka.client.modl.FooModel;
 import ascloud.apple.eureka.client.resc.FooResource;
 import ascloud.apple.feign.client.FooClient.FooClientFallbackFactory;
 import feign.hystrix.FallbackFactory;
@@ -19,9 +22,9 @@ public interface FooClient extends FooResource {
 			return new FooClient() {
 
 				@Override
-				public String foo() {
+				public ResponseEntity<FooModel> foo() {
 
-					return "message:" + cause.getMessage();
+					return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).header("msg", cause.getMessage()).build();  //new FooModel(0L, "message:" + cause.getMessage());
 				}
 			};
 		}

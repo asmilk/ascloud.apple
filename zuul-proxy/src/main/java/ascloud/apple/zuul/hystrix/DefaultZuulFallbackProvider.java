@@ -29,12 +29,12 @@ public class DefaultZuulFallbackProvider implements FallbackProvider {
 	@Override
 	public ClientHttpResponse fallbackResponse(Throwable cause) {
 		if (cause instanceof HystrixTimeoutException) {
-            return response(HttpStatus.GATEWAY_TIMEOUT);
-        } else {
-            return fallbackResponse();
-}
+			return response(HttpStatus.GATEWAY_TIMEOUT);
+		} else {
+			return fallbackResponse();
+		}
 	}
-	
+
 	private ClientHttpResponse response(final HttpStatus status) {
 		return new ClientHttpResponse() {
 			@Override
@@ -58,7 +58,7 @@ public class DefaultZuulFallbackProvider implements FallbackProvider {
 
 			@Override
 			public InputStream getBody() throws IOException {
-				return new ByteArrayInputStream("fallback".getBytes());
+				return new ByteArrayInputStream("{\"message\":\"fallback\"}".getBytes());
 			}
 
 			@Override
@@ -68,6 +68,6 @@ public class DefaultZuulFallbackProvider implements FallbackProvider {
 				return headers;
 			}
 		};
-}
+	}
 
 }
