@@ -52,9 +52,10 @@ public class OAuth2ServerApplication {
 		InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
 		userDetailsService.createUser(User.withUsername("admin").password("{noop}123456").roles("ADMIN").build());
 		userDetailsService.createUser(User.withUsername("staff").password("{noop}123456").roles("STAFF").build());
-		userDetailsService.createUser(User.withUsername("user").password("{noop}123456").roles("USER").build());		
+		userDetailsService.createUser(User.withUsername("user").password("{noop}123456").roles("USER").build());
 		userDetailsService.createUser(User.withUsername("guest").password("{noop}123456").roles("GUEST").build());
-		userDetailsService.createUser(User.withUsername("hacker").password("{noop}123456").roles("HACKER").disabled(true).build());
+		userDetailsService.createUser(
+				User.withUsername("hacker").password("{noop}123456").roles("HACKER").disabled(true).build());
 		return userDetailsService;
 	}
 

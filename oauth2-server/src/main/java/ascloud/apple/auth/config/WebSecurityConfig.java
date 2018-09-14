@@ -11,7 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import ascloud.apple.auth.security.FormLoginFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -31,9 +35,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		FormLoginFilter formLoginFilter = new FormLoginFilter("/oauth/login");
+		formLoginFilter.setAuthenticationManager(super.authenticationManagerBean());
+		formLoginFilter.setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler("/oauth/login"));
+
 		http//
 				.antMatcher("/oauth/**").authorizeRequests().anyRequest().authenticated().and()//
 				.formLogin().loginPage("/oauth/login").permitAll().and()//
+				.addFilterBefore(formLoginFilter, UsernamePasswordAuthenticationFilter.class)//
 				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/oauth/logout"))
 				.logoutSuccessHandler(this.oAuth2LogoutSuccessHandler);
 	}

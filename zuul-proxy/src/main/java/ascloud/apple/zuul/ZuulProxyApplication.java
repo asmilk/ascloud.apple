@@ -49,7 +49,7 @@ public class ZuulProxyApplication {
 
 	@Configuration
 	@EnableOAuth2Sso
-	static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+	static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		@Value("${ascloud.apple.auth.server.logout-uri}")
 		private String authServerLogoutUrl;

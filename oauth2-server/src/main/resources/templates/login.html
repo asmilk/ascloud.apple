@@ -18,6 +18,9 @@
 				<label th:text="#{login.form.label.password}" for="password"></label><input type="password" th:field="*{password}" />
 			</div>
 			<div>
+				<label th:text="#{login.form.label.captcha}" for="captcha"></label><input type="text" name="captcha" id="captcha" />
+			</div>
+			<div>
 				<input type="submit" th:value="#{login.form.button.submit}" />
 			</div>
 		</fieldset>
