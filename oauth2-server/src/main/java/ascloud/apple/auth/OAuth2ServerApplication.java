@@ -93,7 +93,7 @@ public class OAuth2ServerApplication {
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			clients//
-					.inMemory().withClient("uaa").secret("{noop}s3cr3t").scopes("openid")
+					.inMemory().withClient("uaa").secret("{noop}s3cr3t").scopes("read")
 					.authorizedGrantTypes("authorization_code", "password", "refresh_token").autoApprove(true)
 					.accessTokenValiditySeconds(300).refreshTokenValiditySeconds(600);
 		}

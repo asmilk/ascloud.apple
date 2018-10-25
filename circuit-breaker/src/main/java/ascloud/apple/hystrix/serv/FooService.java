@@ -26,7 +26,7 @@ public class FooService {
 	}
 
 	public ResponseEntity<FooModel> fooFallback() {
-		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).header("msg", "no service:" + this.url).build();
+		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).header("msg", "<no service>:" + this.url).build();
 	}
 
 }

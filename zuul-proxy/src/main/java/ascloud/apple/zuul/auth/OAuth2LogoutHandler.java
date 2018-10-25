@@ -1,14 +1,22 @@
 package ascloud.apple.zuul.auth;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
 
@@ -25,9 +33,18 @@ public class OAuth2LogoutHandler implements LogoutHandler {
 
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+		OAuth2AccessToken accessToken = this.oAuth2RestTemplate.getAccessToken();
+		LOG.info("accessToken:{}", accessToken);
+		HttpGet req = new HttpGet(this.revokeTokenUrl + "?token=" + accessToken.getValue());
+		req.setHeader("Authorization", "Bearer " + accessToken.getValue());
 
-		Boolean result = this.oAuth2RestTemplate.getForObject(this.revokeTokenUrl, Boolean.class);
-		LOG.info("result:{}", result);
+		try (CloseableHttpClient client = HttpClientBuilder.create().build();
+				CloseableHttpResponse res = client.execute(req);) {
+			String content = IOUtils.toString(res.getEntity().getContent());
+			LOG.info("content:{}", content);
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
 
 	}
 

@@ -43,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatcher("/oauth/**").authorizeRequests().anyRequest().authenticated().and()//
 				.formLogin().loginPage("/oauth/login").permitAll().and()//
 				.addFilterBefore(formLoginFilter, UsernamePasswordAuthenticationFilter.class)//
+				.csrf().disable()
 				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/oauth/logout"))
 				.logoutSuccessHandler(this.oAuth2LogoutSuccessHandler);
 	}

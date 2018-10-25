@@ -10,7 +10,7 @@
 	<form th:action="@{/oauth/login}" th:object="${user}" method="post">
 		<fieldset>
 			<legend th:text="#{login.form.fieldset.legend}"></legend>
-			<span th:if="${session.SPRING_SECURITY_LAST_EXCEPTION}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
+			<span th:if="${session.SPRING_SECURITY_LAST_EXCEPTION}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}" style="color: red;"></span>
 			<div>
 				<label th:text="#{login.form.label.username}" for="username"></label><input type="text" th:field="*{username}" />
 			</div>
