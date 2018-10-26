@@ -6,8 +6,7 @@
 <title th:text="#{login.title}"></title>
 </head>
 <body>
-	Login.html
-	<div th:text="${session.SPRING_SECURITY_SAVED_REQUEST.getRedirectUrl()}"></div>
+	login/zuul.proxy.html
 	<form th:action="@{/oauth/login}" th:object="${user}" method="post">
 		<fieldset>
 			<legend th:text="#{login.form.fieldset.legend}"></legend>

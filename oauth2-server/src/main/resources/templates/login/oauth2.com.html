@@ -6,8 +6,7 @@
 <title th:text="#{login.title}"></title>
 </head>
 <body>
-	Login.html
-	<div th:text="${session.SPRING_SECURITY_SAVED_REQUEST.getRedirectUrl()}"></div>
+	login/oauth2.com.html
 	<form th:action="@{/oauth/login}" th:object="${user}" method="post">
 		<fieldset>
 			<legend th:text="#{login.form.fieldset.legend}"></legend>
@@ -30,5 +29,14 @@
 			</div>
 		</fieldset>
 	</form>
+	
+	<ul>
+		<li><a th:href="@{http://oauth2.com/oauth2/authorization/github}">Github</a></li>
+		<li><a th:href="@{http://oauth2.com/oauth2/authorization/okta}">Okta</a></li>
+		<li><a th:href="@{http://oauth2.com/oauth2/authorization/uaa}">Uaa</a></li>
+		<li><a th:href="@{http://oauth2.com/oauth2/authorization/weibo}">Weibo</a></li>
+		<li><a th:href="@{http://oauth2.com/oauth2/authorization/weixin}">Weixin</a></li>
+		<li><a th:href="@{http://oauth2.com/oauth2/authorization/qq}">QQ</a></li>
+	</ul>
 </body>
 </html>
