@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/uaa")
 public class ResourceController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ResourceController.class);
@@ -42,7 +43,7 @@ public class ResourceController {
 	public Principal userInfo(Principal principal) {
 		return principal;
 	}
-	
+
 	@RequestMapping("/role/user")
 	@PreAuthorize("hasRole('USER')")
 	public boolean hasRoleUser(Principal principal) throws ServletException {

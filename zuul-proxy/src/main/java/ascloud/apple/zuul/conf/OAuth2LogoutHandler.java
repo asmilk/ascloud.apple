@@ -1,11 +1,10 @@
-package ascloud.apple.zuul.auth;
+package ascloud.apple.zuul.conf;
 
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -25,7 +24,7 @@ public class OAuth2LogoutHandler implements LogoutHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OAuth2LogoutHandler.class);
 
-	@Value("${ascloud.apple.auth.server.resource.revoke-token-uri}")
+	@Value("${security.oauth2.resource.revoke-token-uri}")
 	private String revokeTokenUrl;
 
 	@Autowired
@@ -40,12 +39,10 @@ public class OAuth2LogoutHandler implements LogoutHandler {
 
 		try (CloseableHttpClient client = HttpClientBuilder.create().build();
 				CloseableHttpResponse res = client.execute(req);) {
-			String content = IOUtils.toString(res.getEntity().getContent());
-			LOG.info("content:{}", content);
+			res.getEntity().writeTo(System.out);
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 		}
-
 	}
 
 }

@@ -1,13 +1,13 @@
-package ascloud.apple.feign.client;
+package ascloud.apple.feign.clnt;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import ascloud.apple.eureka.client.modl.FooModel;
-import ascloud.apple.eureka.client.resc.FooResource;
-import ascloud.apple.feign.client.FooClient.FooClientFallbackFactory;
+import ascloud.apple.feign.clnt.FooClient.FooClientFallbackFactory;
+import ascloud.apple.netflix.modl.FooModel;
+import ascloud.apple.netflix.resc.FooResource;
 import feign.hystrix.FallbackFactory;
 
 @FeignClient(name = "eureka-client", fallbackFactory = FooClientFallbackFactory.class)

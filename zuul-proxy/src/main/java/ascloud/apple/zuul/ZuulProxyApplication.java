@@ -22,7 +22,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import ascloud.apple.zuul.auth.OAuth2LogoutHandler;
+import ascloud.apple.zuul.conf.OAuth2LogoutHandler;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -39,6 +39,12 @@ public class ZuulProxyApplication {
 		springTemplateEngine.addDialect(new SpringSecurityDialect());
 		return springTemplateEngine;
 	}
+	
+	@Bean
+	public OAuth2RestTemplate oauth2RestTemplate(OAuth2ClientContext oauth2ClientContext,
+			OAuth2ProtectedResourceDetails details) {
+		return new OAuth2RestTemplate(details, oauth2ClientContext);
+	}
 
 	@Bean
 	public RoleHierarchy roleHierarchy() {
@@ -51,26 +57,20 @@ public class ZuulProxyApplication {
 	@EnableOAuth2Sso
 	static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-		@Value("${ascloud.apple.auth.server.logout-uri}")
-		private String authServerLogoutUrl;
+		@Value("${security.oauth2.client.logout-uri}")
+		private String logoutUrl;
 
 		@Autowired
 		private OAuth2LogoutHandler oAuth2LogoutHandler;
 
 		@Autowired
 		private RoleHierarchy roleHierarchy;
-		
-		@Bean
-		public OAuth2RestTemplate oauth2RestTemplate(OAuth2ClientContext oauth2ClientContext,
-				OAuth2ProtectedResourceDetails details) {
-			return new OAuth2RestTemplate(details, oauth2ClientContext);
-		}
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http//
 					.authorizeRequests().antMatchers("/", "/login**").permitAll().anyRequest().authenticated().and()//
-					.logout().addLogoutHandler(this.oAuth2LogoutHandler).logoutSuccessUrl(this.authServerLogoutUrl);
+					.logout().addLogoutHandler(this.oAuth2LogoutHandler).logoutSuccessUrl(this.logoutUrl);
 		}
 
 		@Override

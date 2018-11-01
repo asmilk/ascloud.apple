@@ -1,4 +1,4 @@
-package ascloud.apple.auth.entity;
+package ascloud.apple.auth.enty;
 
 import java.io.Serializable;
 

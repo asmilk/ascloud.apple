@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ascloud.apple.eureka.client.modl.FooModel;
-import ascloud.apple.feign.client.FooClient;
+import ascloud.apple.feign.clnt.FooClient;
+import ascloud.apple.netflix.modl.FooModel;
 
 @RestController
 public class TestController {

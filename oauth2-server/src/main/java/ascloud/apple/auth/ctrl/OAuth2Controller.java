@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import ascloud.apple.auth.entity.UserEntity;
+import ascloud.apple.auth.enty.UserEntity;
 
 @Controller
 @RequestMapping("/oauth")
@@ -22,11 +22,10 @@ public class OAuth2Controller {
 			@SessionAttribute("SPRING_SECURITY_SAVED_REQUEST") DefaultSavedRequest savedRequest) {
 		String view = "login";
 		LOG.info("savedRequest:{}", savedRequest);
-		String[] redirectUrl = savedRequest.getParameterValues("redirect_uri");
-		LOG.info("redirectUrl:{}", redirectUrl[0]);
-		if("http://zuul.proxy:8080/login".equalsIgnoreCase(redirectUrl[0])) {
+		String query = savedRequest.getQueryString();
+		if (query.contains("http://zuul.proxy:8080/login")) {
 			view = "login/zuul.proxy";
-		} else if ("http://oauth2.com/login/oauth2/code/uaa".equalsIgnoreCase(redirectUrl[0])) {
+		} else if (query.contains("http://oauth2.com/login/oauth2/code/uaa")) {
 			view = "login/oauth2.com";
 		}
 		return view;

@@ -1,4 +1,4 @@
-package ascloud.apple.auth.config;
+package ascloud.apple.auth.conf;
 
 import java.io.IOException;
 import java.security.Principal;

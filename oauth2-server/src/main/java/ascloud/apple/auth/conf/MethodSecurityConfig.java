@@ -1,4 +1,4 @@
-package ascloud.apple.auth.config;
+package ascloud.apple.auth.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

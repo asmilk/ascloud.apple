@@ -1,4 +1,4 @@
-package ascloud.apple.eureka.server;
+package ascloud.apple.netflix;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

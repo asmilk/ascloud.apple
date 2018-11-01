@@ -1,4 +1,4 @@
-package ascloud.apple.zuul.hystrix;
+package ascloud.apple.zuul.conf;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ascloud.apple.eureka.client;
+package ascloud.apple.netflix;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

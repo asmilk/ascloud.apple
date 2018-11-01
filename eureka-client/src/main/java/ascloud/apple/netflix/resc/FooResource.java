@@ -1,9 +1,9 @@
-package ascloud.apple.eureka.client.resc;
+package ascloud.apple.netflix.resc;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ascloud.apple.eureka.client.modl.FooModel;
+import ascloud.apple.netflix.modl.FooModel;
 
 public interface FooResource {
 

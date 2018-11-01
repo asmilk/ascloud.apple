@@ -1,4 +1,4 @@
-package ascloud.apple.eureka.client.modl;
+package ascloud.apple.netflix.modl;
 
 import java.io.Serializable;
 

@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
-import ascloud.apple.eureka.client.modl.FooModel;
+import ascloud.apple.netflix.modl.FooModel;
 
 @Service
 public class FooService {

@@ -1,4 +1,4 @@
-package ascloud.apple.auth.security;
+package ascloud.apple.auth.conf;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,18 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(FormLoginFilter.class);
-
-	public FormLoginFilter(String filterProcessesUrl) {
-		super();
-		this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(filterProcessesUrl, "POST"));
-	}
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
