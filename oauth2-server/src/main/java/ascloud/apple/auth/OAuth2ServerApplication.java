@@ -109,7 +109,8 @@ public class OAuth2ServerApplication {
 			clients//
 					.inMemory().withClient("uaa").secret("{noop}s3cr3t").scopes("all")
 					.authorizedGrantTypes("authorization_code", "password", "refresh_token").autoApprove(true)
-					.accessTokenValiditySeconds(300).refreshTokenValiditySeconds(600);
+					.accessTokenValiditySeconds(300).refreshTokenValiditySeconds(600)
+					.redirectUris("http://zuul.proxy:8080/login", "http://oauth2.com/login/oauth2/code/uaa");
 		}
 
 	}
